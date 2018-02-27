@@ -1,0 +1,16 @@
+server:
+  port: 4050
+
+spring:
+  rabbitmq:
+    host: 106.14.69.75
+    port: 5682
+    username: pig
+    password: lengleng
+
+sms:
+  aliyun:
+    accessKey: ENC(Lm4sMaa8jpGOwK9hkuRI3SWHlUd63RTqq)
+    secretKey: ENC(A9i34tFkZLy8HVd9TTKjmnp5P/OE6pEE6+lAOF6tKxwPHizQ3/AG4cG+XoM8/5fO)
+    channels:
+      loginCodeChannel: SMS_34630023

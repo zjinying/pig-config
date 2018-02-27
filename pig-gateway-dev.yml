@@ -1,0 +1,70 @@
+server:
+  port: 9999
+
+spring:
+  rabbitmq:
+    host: 106.14.69.75
+    port: 5682
+    username: pig
+    password: ENC(gc16brBHPNq27HsjaULgKGq00Rz6ZUji)
+  zipkin:
+    rabbitmq:
+      queue: zipkin
+  sleuth:
+    sampler:
+      percentage: 1.0
+
+zuul:
+  ignoredServices: '*'
+  host:
+    connect-timeout-millis: 30000
+    socket-timeout-millis: 30000
+  routes:
+    pig-auth:
+      path: /auth/**
+      serviceId: pig-auth
+      stripPrefix: true
+      sensitiveHeaders:
+    pig-upms-service:
+      path: /admin/**
+      serviceId: pig-upms-service
+      stripPrefix: true
+      sensitiveHeaders:
+  ratelimit:
+    key-prefix: pig-ratelimite 
+    enabled: true 
+    repository: REDIS 
+    behind-proxy: true
+    policies:
+      pig-upms-service:
+        limit: 100
+        quota: 100
+        refresh-interval: 3
+
+security:
+  validate:
+    code: false
+  sessions: stateless
+  oauth2:
+    resource:
+      loadBalanced: true
+      user-info-uri: http://pig-auth/user
+      prefer-token-info: false
+      service-id: pig-gateway
+
+urls:
+  anon:
+    - /mobile/**
+    - /auth/**
+    - /admin/code/*
+    - /admin/smsCode/*
+    - /admin/user/info
+    - /admin/menu/userTree
+    - /swagger-resources/**
+    - /swagger-ui.html
+    - /*/v2/api-docs
+    - /swagger/api-docs
+    - /webjars/**
+       
+logging:
+  config: classpath:logback.xml
